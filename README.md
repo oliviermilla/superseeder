@@ -27,7 +27,7 @@ TODO
 
 Writing seeds
 -------------
-Let say I want to seed the following models:
+Let say you want to seed the following models:
 
 ```ruby
 model Car < ActiveRecord::Base
@@ -41,8 +41,9 @@ model Parking < ActiveRecord::Base
 end
 ```
 
-(`Mongoid` models are also supported.)
+*`Mongoid` models are also supported!*
 
+Your seed files are expected to look like:
 
  `db/seeds/data/cars.csv`
 
@@ -68,8 +69,8 @@ end
  seed :cars
 ```
 
-Note that the `parking` relation is set through the name. You can match any *unique* column of a model\`s relation
-by titling the column `relation_column`.
+Note that the `parking` relation is set through its `name`. You can match any *unique* column of a model\`s relation
+by titling the column *`relation_column`*.
 
 Also note that you can seed the relation the other way around:
 
@@ -123,9 +124,10 @@ Options
 ------------------------
 `seed` takes a number of options:
  * `:filename` to specify a file name not matching a model name
- ```ruby
-    seed :cars, :filename => 'last_dump.csv'
- ```
+
+     ```ruby
+        seed :cars, :filename => 'last_dump.csv'
+     ```
 
 With `csv` files, you can specify the column separator:
  ```ruby
@@ -134,6 +136,7 @@ With `csv` files, you can specify the column separator:
 
 Seed formats
 ------------------
+TODO
 
 LICENSE
 -------
