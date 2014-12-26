@@ -41,10 +41,10 @@ model Parking < ActiveRecord::Base
 end
 ```
 
-(Note that `Mongoid` is also supported)
+(`Mongoid` models are also supported.)
 
-```ruby
- # db/seeds/data/cars.csv
+
+ `db/seeds/data/cars.csv`
 
  name|parking_name
  ----|------------
@@ -52,7 +52,7 @@ end
  Corvette|north
  BMW|south
 
- # db/seeds/parkings.csv
+ `db/seeds/parkings.csv`
  name|
  ----|-
  south|
@@ -60,6 +60,7 @@ end
  west|
  north|
 
+```ruby
  # db/seeds/seeds.rb
  include Superseeder
  seed :parkings
@@ -71,8 +72,7 @@ by titling the column `relation_column`.
 
 Also note that you can seed the relation the other way around:
 
-```ruby
- # db/seeds/data/cars.csv
+ `db/seeds/data/cars.csv`
 
  name|
  ----|-
@@ -80,7 +80,8 @@ Also note that you can seed the relation the other way around:
  Corvette|
  BMW|
 
- # db/seeds/parkings.csv
+ `db/seeds/parkings.csv`
+
  name|cars_name
  ----|----
  south|Mustang,BMW
@@ -88,7 +89,8 @@ Also note that you can seed the relation the other way around:
  west|
  north|Corvette
 
- # db/seeds/seeds.rb
+```ruby
+ db/seeds/seeds.rb
  include Superseeder
  seed :cars
  seed :parkings
