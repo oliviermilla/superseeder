@@ -9,7 +9,7 @@ module Superseeder
       def __process(path, *args)
         require 'csv'
         opts = args.extract_options!
-        ::CSV.foreach(path, :headers => true, :col_sep => opts.delete(:col_sept) || ';') do |row|
+        ::CSV.foreach(path, :headers => true, :col_sep => opts.delete(:col_sep) || ';') do |row|
           row = row.to_hash
           if block_given?
             yield row, opts
