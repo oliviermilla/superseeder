@@ -53,6 +53,7 @@ end
  BMW|south
 
  `db/seeds/parkings.csv`
+
  name|
  ----|-
  south|
@@ -67,7 +68,7 @@ end
  seed :cars
 ```
 
-Note that the `parking` relation is set through the name. You can match any *unique* column of a model`s relation
+Note that the `parking` relation is set through the name. You can match any *unique* column of a model\`s relation
 by titling the column `relation_column`.
 
 Also note that you can seed the relation the other way around:
@@ -90,7 +91,7 @@ Also note that you can seed the relation the other way around:
  north|Corvette
 
 ```ruby
- db/seeds/seeds.rb
+ # db/seeds/seeds.rb
  include Superseeder
  seed :cars
  seed :parkings
@@ -122,10 +123,14 @@ Options
 ------------------------
 `seed` takes a number of options:
  * `:filename` to specify a file name not matching a model name
+ ```ruby
     seed :cars, :filename => 'last_dump.csv'
+ ```
 
- With `csv` files, you can specify the column separator:
- `seed :cars, :col_sep => ';'`
+With `csv` files, you can specify the column separator:
+ ```ruby
+ seed :cars, :col_sep => ';'
+ ```
 
 Seed formats
 ------------------
