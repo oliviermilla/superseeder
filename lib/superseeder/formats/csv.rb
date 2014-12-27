@@ -20,28 +20,40 @@ module Superseeder
             instance.class.reflections.each do |key, val|
               attrs = row.select{ |k, _| k =~ /\A#{key}_/ }
               next if attrs.empty?
-              case val[:macro]
-                when :belongs_to, :embedded_in
-                  instance.send "#{key}=", val[:class_name].find_by(attrs)
-                when :has_many, :embeds_many
-                  instance
-                when :has_and_belongs_to_many
-                else
-                  instance #Should never happen
+              attrs = attrs.inject({}){ |h, (k, v)| h[k.sub /\A#{key}_/, ''] = v; h }
+              if [Mongoid::Relations::Referenced::Many,
+                  Mongoid::Relations::Embedded::Many,
+                  Mongoid::Relations::Referenced::ManyToMany].include? val[:relation]
+                vals = attrs.map do |k, v|
+                  v.split(opts[:many_sep] || ',').map{ val.class_name.constantize.find_by k => v } unless v.nil?
+                end
+                vals.flatten!
+                vals.compact!
+                instance.send "#{key}=", vals
+              else
+                instance.send "#{key}=", val.class_name.constantize.find_by(attrs)
               end
             end
 
             # Set attributes
-            instance.fields.each do |attr, _|
-              instance.send "#{attr}=", row[attr] unless attr == '_id'
+            instance.fields.select{ |f, _| row.key? f }.each do |name, field|
+              val = if field.type == Array
+                      row[name].try(:split, opts[:many_sep] || ',')
+                    else
+                      row[name]
+                    end
+              instance.send "#{name}=", val
             end
 
-            instance.save!
+            if instance.valid?
+              instance.save
+            else
+              logger.debug "Skipped #{row} : #{instance.errors.full_messages}"
+            end
           end
         end
       end
 
     end
-
   end
 end

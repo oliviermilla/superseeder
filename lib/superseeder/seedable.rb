@@ -23,7 +23,7 @@ module Superseeder
       count = self.count
       self.extend mod
       self.__process path, *opts
-      logger.debug "Done (#{self.count - count} entries added.)"
+      logger.debug "Done. (#{self.count - count} entries added)"
     end
   end
 

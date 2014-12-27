@@ -3,13 +3,11 @@ Superseeder
 
 Description
 -----------
-Superseeder allows you to easily seed your Rails application from sheet files (.csv, .xls, .xlsx, etc.).
-Superseeder supports seeding `ActiveRecord` and `Mongoid` relations.
+Easily seed your Rails models from sheet files (.csv, .xls, .xlsx, etc.), including relations.
 
-Common Use Case
+Use Case
 -----------
-In your Rails application, create a `db/seeds/data` folder, add seed files in your favorite format.
-The naming convention is `models.(csv|xls|xlsx)`.
+Create a `db/seeds/data` folder. Add seed files in your favorite format.
 
 In `db/seeds/seeds.rb`:
 
@@ -23,9 +21,15 @@ Use `rake db:seed` as usual to see your database being seeded!
 
 Gem dependencies
 ----------------
-TODO
+You do not need any gem dependency for `csv` files.
+Code for `xls` and `xlsx` formats are provided but you need to add gem dependencies yourself in your application's `Gemfile`.
 
-Writing seeds
+format|gem|version
+------|---|-------
+xls||
+xlsx||
+
+Writing proper seeds
 -------------
 Let say you want to seed the following models:
 
@@ -41,9 +45,9 @@ model Parking < ActiveRecord::Base
 end
 ```
 
-*`Mongoid` models are also supported!*
+**`Mongoid` models are also supported!**
 
-Your seed files are expected to look like:
+Your seed file are expected to look like:
 
  `db/seeds/data/cars.csv`
 
@@ -69,10 +73,10 @@ Your seed files are expected to look like:
  seed :cars
 ```
 
-Note that the `parking` relation is set through its `name`. You can match any *unique* column of a model\`s relation
-by titling the column *`relation_column`*.
+Note that the `parking` relations are set through `name`. You can match any **unique** column of a model\`s relation
+by titling the column **`relation_column`**.
 
-Also note that you can seed the relation the other way around:
+You can of course seed relations the other way around:
 
  `db/seeds/data/cars.csv`
 
@@ -125,18 +129,42 @@ Options
 `seed` takes a number of options:
  * `:filename` to specify a file name not matching a model name
 
-     ```ruby
-        seed :cars, :filename => 'last_dump.csv'
-     ```
+```ruby
+   seed :cars, :filename => 'last_dump.csv'
+```
+
+ * `:many_sep` to specify what separate references to array relations (`has_many`, `has_and_belongs_to_many`, `embeds_many`).
 
 With `csv` files, you can specify the column separator:
  ```ruby
  seed :cars, :col_sep => ';'
  ```
 
-Seed formats
+Contributing / Seed formats
 ------------------
-TODO
+I appreciate any help to make this gem more robust and flexible.
+
+If you want to add support for other formats, here's how to do it:
+
+Add a module in the superseeder format namespace that look like:
+
+ ```ruby
+ # my_format.rb
+ module Superseeder
+   module Formats
+     module MyFormat
+
+       def self.extensions
+       # list of supported extensions
+       end
+
+       def __process(path, *args)
+         # Add code for parsing your format.
+       end
+     end
+   end
+ end
+```
 
 LICENSE
 -------
