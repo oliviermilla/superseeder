@@ -6,8 +6,14 @@ module Superseeder
         %w(.xlsx)
       end
 
-      def seed
-        #require 'rubyx'
+      def __process(path, *args)
+        require 'roo'
+        xls = Roo::Spreadsheet.open path
+        xls = xls.sheet(0)
+        header = xls[xls.first_row]
+        for idx in (xls.first_row + 1..xls.last_row)
+          row = xls.row idx
+        end
         sheet = RubyXL::Parser.parse(path).worksheets[0]
         row_index = 0
         header = sheet.sheet_data[row_index].cells.inject(Hash.new){ |stamp, cell| stamp[cell.column] = cell.value and stamp }

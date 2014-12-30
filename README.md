@@ -3,13 +3,13 @@ Superseeder
 
 Description
 -----------
-Easily seed your Rails models from sheet files (.csv, .xls, .xlsx, etc.), including relations.
+Easily seed your Rails models from worksheet, including relations.
 
 Use Case
 -----------
-Create a `db/seeds/data` folder. Add seed files in your favorite format.
+Add seed files in your favorite format in `db/seeds/data`.
 
-In `db/seeds/seeds.rb`:
+In `db/seeds/seeds.rb`, just
 
 ```ruby
 include Superseeder
@@ -17,21 +17,23 @@ seed :cars
 seed :parkings
 ```
 
-Use `rake db:seed` as usual to see your database being seeded!
+and use `rake db:seed` as usual to see your database filling up!
 
 Gem dependencies
 ----------------
 You do not need any gem dependency for `csv` files.
-Code for `xls` and `xlsx` formats are provided but you need to add gem dependencies yourself in your application's `Gemfile`.
+For other formats, you **must** add the gem dependencies yourself in your application's `Gemfile`.
 
 format|gem|version
 ------|---|-------
-xls||
-xlsx||
+xls|roo-xls|
+xlsx|roo|>=1.13.2
+OpenOffice/LibreOffice|roo|>=1.13.2
+Google Sheet|roo-google|
 
-Writing proper seeds
+Relations
 -------------
-Let say you want to seed the following models:
+Let say you want to seed the models with the following relations:
 
 ```ruby
 model Car < ActiveRecord::Base
@@ -140,9 +142,9 @@ With `csv` files, you can specify the column separator:
  seed :cars, :col_sep => ';'
  ```
 
-Contributing / Seed formats
+Contributing / Seeds from other file formats
 ------------------
-I appreciate any help to make this gem more robust and flexible.
+I appreciate any help to make this gem more robust and flexible, please pull! :)
 
 If you want to add support for other formats, here's how to do it:
 
