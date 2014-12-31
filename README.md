@@ -3,7 +3,10 @@ Superseeder
 
 Description
 -----------
-Easily seed your Rails models (and their relations) from sheet files (.csv, .xls, .xlsx, etc., .ods, .tsv., .yml, etc.).
+Easily seed your Rails models (and their relations) from sheet files.
+Currently supported formats are .csv, .xls, .xlsx, .ods, .tsv., .yml. Support for other formats can easily be added and contributed back here. :)
+
+The gem was written for Mongoid models (https://github.com/mongoid/mongoid). ActiveRecord support is on its way.
 
 Use Case
 -----------
@@ -19,7 +22,7 @@ seed :parkings
 
 Use `rake db:seed` as usual to see your database being seeded!
 
-Writing proper seeds
+Writing seeds
 -------------
 Let say you want to seed the following models with their relations:
 
@@ -34,8 +37,6 @@ model Parking < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 end
 ```
-
-**`Mongoid` models are also supported!**
 
 Your seed file are expected to look like:
 
@@ -64,7 +65,7 @@ Your seed file are expected to look like:
 ```
 
 Note that the `parking` relations are set through `name`. You can match any column of a model\`s relation
-by titling the column **`relation_column`**. Matching multiple columns also works.
+by titling the column **`relation_column`**. Matching multiple columns is also possible.
 
 You can of course seed relations the other way around:
 
@@ -123,9 +124,20 @@ Options
    seed :cars, :filename => 'last_dump.csv'
 ```
 
- * `:many_sep` to specify what separate references to array relations (`has_many`, `has_and_belongs_to_many`, `embeds_many`).
+ * `:many_sep` to specify the separator in array relations
 
-You can also pass any option supported by the Roo gem to read files, such as encoding, CSV column separator, etc. Check their documentation for more information.
+ name|cars_name
+ ----|----
+ south|Mustang@BMW
+ east|
+ west|
+ north|Corvette
+
+```ruby
+   seed :parkings, :many_sep => '@'
+```
+
+You can also pass any option supported by the Roo gem (https://github.com/roo-rb/roo) to read files, such as encoding, CSV column separator, etc. Check their documentation for more information.
 
 Contributing / Seed formats
 ------------------
@@ -142,7 +154,7 @@ Add a module in the superseeder format namespace that look like:
      module MyFormat
 
        def self.extensions
-       # list of supported extensions
+       # list of supported extensions, ex: %w(.mft .x4t)
        end
 
        def __process(path, *args)
