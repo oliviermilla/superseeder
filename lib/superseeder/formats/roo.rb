@@ -27,7 +27,11 @@ module Superseeder
           if block_given?
             yield row
           else
-            instance = self.new
+            instance = if row['_type'].blank?
+                         self
+                       else
+                         row['_type'].constantize
+                       end.new
 
             # Set relations
             instance.class.reflections.each do |key, val|

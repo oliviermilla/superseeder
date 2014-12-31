@@ -115,6 +115,30 @@ end
 Car.seed
 ```
 
+Single Table Inheritance
+------------------------
+You can seed a model and its inherited models from a single file provided you add a '_type' column containing the subclass name.
+
+```ruby
+model Car
+end
+
+model RentedCar < Car
+end
+```
+name|_type
+----|-----
+Mustang|
+Corvette|RentedCar
+BMW|
+
+will seed
+```ruby
+Car.new :name => 'Mustang'
+RentedCar.new :name => 'Corvette'
+Car.new :name => 'BMW'
+```
+
 Options
 ------------------------
 `seed` takes a number of options:
