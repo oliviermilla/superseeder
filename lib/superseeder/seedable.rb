@@ -1,7 +1,7 @@
 module Superseeder
   module Seedable
 
-    def seed(*args)
+    def seed(*args, &block)
       opts  = args.extract_options!
       path = Rails.root.join('db', 'seeds', 'data')
       filename = opts.delete :filename
@@ -22,7 +22,7 @@ module Superseeder
       logger.debug "Seeding #{self.name.downcase.pluralize.humanize} from #{path}..."
       count = self.count
       self.extend mod
-      self.__process path, opts
+      self.__process path, opts, &block
       logger.debug "Done. (#{self.count - count} entries added)"
     end
   end

@@ -1,10 +1,10 @@
 module Superseeder
 
-  def seed(symbol, *args)
+  def seed(symbol, *args, &block)
     require 'superseeder/seedable'
     klass = symbol.to_s.classify.constantize
     klass.extend Superseeder::Seedable
-    klass.seed *args
+    klass.seed *args, &block
   end
 
 end

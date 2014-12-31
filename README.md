@@ -24,7 +24,7 @@ Use `rake db:seed` as usual to see your database being seeded!
 
 Writing seeds
 -------------
-Let say you want to seed the following models with their relations:
+Let's say you want to seed the following models with their relations:
 
 ```ruby
 model Car < ActiveRecord::Base
@@ -38,7 +38,7 @@ model Parking < ActiveRecord::Base
 end
 ```
 
-Your seed file are expected to look like:
+Your seeds are expected to look like:
 
  `db/seeds/data/cars.csv`
 
