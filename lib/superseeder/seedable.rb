@@ -19,10 +19,10 @@ module Superseeder
       modules = Superseeder::Formats.constants.select{ |c| Module === Superseeder::Formats.const_get(c) }.map{ |c| Superseeder::Formats.const_get(c) }
       mod = modules.find{ |m| m.send(:extensions).include? ext }
       raise ArgumentError.new "No registered module to support #{ext} extension." if mod.nil?
-      logger.debug "Seeding #{self.name.downcase.pluralize} from #{path}..."
+      logger.debug "Seeding #{self.name.downcase.pluralize.humanize} from #{path}..."
       count = self.count
       self.extend mod
-      self.__process path, *opts
+      self.__process path, opts
       logger.debug "Done. (#{self.count - count} entries added)"
     end
   end

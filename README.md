@@ -3,13 +3,13 @@ Superseeder
 
 Description
 -----------
-Easily seed your Rails models from worksheet, including relations.
+Easily seed your Rails models (and their relations) from sheet files (.csv, .xls, .xlsx, etc., .ods, .tsv., .yml, etc.).
 
 Use Case
 -----------
-Add seed files in your favorite format in `db/seeds/data`.
+Create a `db/seeds/data` folder. Add seed files in your favorite format.
 
-In `db/seeds/seeds.rb`, just
+In `db/seeds/seeds.rb`:
 
 ```ruby
 include Superseeder
@@ -17,23 +17,11 @@ seed :cars
 seed :parkings
 ```
 
-and use `rake db:seed` as usual to see your database filling up!
+Use `rake db:seed` as usual to see your database being seeded!
 
-Gem dependencies
-----------------
-You do not need any gem dependency for `csv` files.
-For other formats, you **must** add the gem dependencies yourself in your application's `Gemfile`.
-
-format|gem|version
-------|---|-------
-xls|roo-xls|
-xlsx|roo|>=1.13.2
-OpenOffice/LibreOffice|roo|>=1.13.2
-Google Sheet|roo-google|
-
-Relations
+Writing proper seeds
 -------------
-Let say you want to seed the models with the following relations:
+Let say you want to seed the following models with their relations:
 
 ```ruby
 model Car < ActiveRecord::Base
@@ -75,8 +63,8 @@ Your seed file are expected to look like:
  seed :cars
 ```
 
-Note that the `parking` relations are set through `name`. You can match any **unique** column of a model\`s relation
-by titling the column **`relation_column`**.
+Note that the `parking` relations are set through `name`. You can match any column of a model\`s relation
+by titling the column **`relation_column`**. Matching multiple columns also works.
 
 You can of course seed relations the other way around:
 
@@ -117,7 +105,7 @@ each row of the seed file will be passed as a hash.
 
 Seeding from models
 ------------------------
-You can allow a model to seed itself from a file:
+You can allow a model to seed itself:
 
 ```ruby
 model Car
@@ -137,14 +125,11 @@ Options
 
  * `:many_sep` to specify what separate references to array relations (`has_many`, `has_and_belongs_to_many`, `embeds_many`).
 
-With `csv` files, you can specify the column separator:
- ```ruby
- seed :cars, :col_sep => ';'
- ```
+You can also pass any option supported by the Roo gem to read files, such as encoding, CSV column separator, etc. Check their documentation for more information.
 
-Contributing / Seeds from other file formats
+Contributing / Seed formats
 ------------------
-I appreciate any help to make this gem more robust and flexible, please pull! :)
+I appreciate any help to make this gem more robust and flexible.
 
 If you want to add support for other formats, here's how to do it:
 

@@ -1,17 +1,29 @@
-=begin Deprecated in favor of roo, uncomment to use
 module Superseeder
   module Formats
-    module Csv
+    module Roo
+
+      EXTENSIONS = { '.csv'   => '::Roo::CSV',
+                     '.xls'   => '::Roo::Excel',
+                     '.xlsx'  => '::Roo::Excelx',
+                     '.ods'   => '::Roo::OpenOffice'
+      }
 
       def self.extensions
-        %w(.csv)
+        EXTENSIONS.keys
       end
 
       def __process(path, *args)
-        require 'csv'
+        require 'roo'
+
         opts = args.extract_options!
-        ::CSV.foreach(path, :headers => true, :col_sep => opts.delete(:col_sep) || ';') do |row|
-          row = row.to_hash.with_indifferent_access
+        many_sep = opts.delete(opts[:many_sep]) || ','
+
+        s = EXTENSIONS[File.extname(path)].constantize.new path.to_s, opts
+        header = s.row s.first_row
+        for index in (s.first_row + 1..s.last_row)
+          row = s.row index
+          row = header.each_with_index.inject(Hash.new){ |stamp, (i, idx)| stamp[i] = row[idx]; stamp }
+          row = row.with_indifferent_access
           if block_given?
             yield row
           else
@@ -26,7 +38,7 @@ module Superseeder
                   Mongoid::Relations::Embedded::Many,
                   Mongoid::Relations::Referenced::ManyToMany].include? val[:relation]
                 vals = attrs.map do |k, v|
-                  v.split(opts[:many_sep] || ',').map{ val.class_name.constantize.find_by k => v } unless v.nil?
+                  v.split(many_sep).map{ val.class_name.constantize.find_by k => v } unless v.nil?
                 end
                 vals.flatten!
                 vals.compact!
@@ -37,9 +49,10 @@ module Superseeder
             end
 
             # Set attributes
-            instance.fields.select{ |f, _| row.key? f }.each do |name, field|
-              val = if field.type == Array
-                      row[name].try(:split, opts[:many_sep] || ',')
+            instance.fields.select{ |f, o| row.key? o.options[:as] || f }.each do |f, o|
+              name = o.options[:as] || f
+              val = if o.type == Array
+                      row[name].try(:split, many_sep)
                     else
                       row[name]
                     end
@@ -54,8 +67,6 @@ module Superseeder
           end
         end
       end
-
     end
   end
 end
-=end
