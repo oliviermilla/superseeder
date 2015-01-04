@@ -163,6 +163,10 @@ Options
 
 You can also pass any option supported by the Roo gem (https://github.com/roo-rb/roo) to read files, such as encoding, CSV column separator, etc. Check their documentation for more information.
 
+```ruby
+   seed :parkings, csv_options: { col_sep: ';' }
+```
+
 Contributing / Seed formats
 ------------------
 I appreciate any help to make this gem more robust and flexible.
