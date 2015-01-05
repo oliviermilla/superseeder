@@ -20,5 +20,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 4'
   s.add_dependency 'roo', '~>1'
 
-  s.add_development_dependency 'sqlite3', '1.3.10'
+  s.add_development_dependency 'sqlite3', '>=1.3.10'
+  s.add_development_dependency 'mongoid', '~>4'
 end

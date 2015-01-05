@@ -3,10 +3,18 @@ Superseeder
 
 Description
 -----------
-Easily seed your Rails models (and their relations) from sheet files.
-Currently supported formats are .csv, .xls, .xlsx, .ods, .tsv., .yml. Support for other formats can easily be added and contributed back here. :)
+Easily seed Rails models from sheet files.
+Currently supported formats are
+ - .csv
+ - .xls
+ - .xlsx
+ - .ods
+ - .tsv.
+ - .yml
 
-The gem was written for Mongoid models (https://github.com/mongoid/mongoid). ActiveRecord support is on its way.
+Support for other formats can easily be added and contributed back here. :)
+
+The gem supports [Mongoid](https://github.com/mongoid/mongoid). ActiveRecord support is on its way.
 
 Example case
 -----------
@@ -31,7 +39,7 @@ db/seeds/data/cars.csv
 db/seeds/data/parkings.csv
 ```
 
-In `db/seeds/seeds.rb`, simply `include Superseeder` and call seed for each of the models:
+In `db/seeds/seeds.rb`, simply `include Superseeder` and call `seed` for each of the models:
 
 ```ruby
 include Superseeder
@@ -39,7 +47,7 @@ seed :cars
 seed :parkings
 ```
 
-Use `rake db:seed` as usual to see your database being seeded!
+Use `rake db:seed` as usual.
 
 Writing seeds
 -----------
@@ -69,8 +77,10 @@ Seeds are easy to write. For instance, for above models, your files are expected
  seed :cars
 ```
 
-Note that the `parking` relations are set through `name`. You can match any column of a model\`s relation
-by titling the column **`relation_column`**. Matching multiple columns is also possible.
+Note that
+ - the seeds are ordered, parkings is seeded before car since cars need to find existing parkings to set up relations.
+ - the ca'rs parking relation is set with the parking's name. You can match any column of a model\`s relation
+by titling the column **`relation_column`**. Matching multiple columns to yield a single entry is also possible.
 
 You can of course seed relations the other way around:
 

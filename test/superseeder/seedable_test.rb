@@ -20,12 +20,11 @@ end
 
 describe '#seed' do
 
-  let(:object) do
-    c = Class.new do
-      include ::Superseeder
-    end
-    c.new
+  @@class = Class.new do
+    include ::Superseeder
   end
+
+  let(:object){ @@class.new }
 
   it 'extend the class with the format\'s module when the file is found' do
     object.seed :whatever

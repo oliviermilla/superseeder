@@ -33,29 +33,29 @@ module Superseeder
                          row['_type'].constantize
                        end.new
 
+            require 'superseeder/adapter'
+            adapter = ::Superseeder::Adapter.new instance
+
             # Set relations
-            instance.class.reflections.each do |key, val|
-              attrs = row.select{ |k, _| k =~ /\A#{key}_/ }
+            adapter.each_relation do |name, is_array, class_name|
+              attrs = row.select{ |k, _| k =~ /\A#{name}_/ }
               next if attrs.empty?
-              attrs = attrs.inject({}){ |h, (k, v)| h[k.sub /\A#{key}_/, ''] = v; h }
-              if [Mongoid::Relations::Referenced::Many,
-                  Mongoid::Relations::Embedded::Many,
-                  Mongoid::Relations::Referenced::ManyToMany].include? val[:relation]
+              attrs = attrs.inject({}){ |h, (k, v)| h[k.sub /\A#{name}_/, ''] = v; h }
+              if is_array
                 vals = attrs.map do |k, v|
-                  v.split(many_sep).map{ val.class_name.constantize.find_by k => v } unless v.nil?
+                  v.split(many_sep).map{ class_name.find_by k => v } unless v.nil?
                 end
                 vals.flatten!
                 vals.compact!
-                instance.send "#{key}=", vals
+                instance.send "#{name}=", vals
               else
-                instance.send "#{key}=", val.class_name.constantize.find_by(attrs)
+                instance.send "#{name}=", class_name.find_by(attrs)
               end
             end
 
-            # Set attributes
-            instance.fields.select{ |f, o| row.key? o.options[:as] || f }.each do |f, o|
-              name = o.options[:as] || f
-              val = if o.type == Array
+            # Set fields
+            adapter.each_field(row) do |name, is_array|
+              val = if is_array
                       row[name].try(:split, many_sep)
                     else
                       row[name]
@@ -66,7 +66,7 @@ module Superseeder
             if instance.valid?
               instance.save
             else
-              logger.debug "Skipped #{row} : #{instance.errors.full_messages}"
+              Rails.logger.debug "Skipped #{row} : #{instance.errors.full_messages}"
             end
           end
         end
