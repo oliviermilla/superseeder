@@ -14,7 +14,7 @@ Currently supported formats are
 
 Support for other formats can easily be added and contributed back here. :)
 
-The gem supports [Mongoid](https://github.com/mongoid/mongoid). ActiveRecord support is on its way.
+The gem supports both [Mongoid](https://github.com/mongoid/mongoid) and ActiveRecord.
 
 Example case
 -----------
