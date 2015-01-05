@@ -1,4 +1,4 @@
-name;parking_name
-BMW;North
-Corvette;South
-Mustang;South
+name,parking_name
+Mustang,North
+Corvette,South
+BMW,South

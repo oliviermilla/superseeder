@@ -43,7 +43,7 @@ module Superseeder
               attrs = attrs.inject({}){ |h, (k, v)| h[k.sub /\A#{name}_/, ''] = v; h }
               if is_array
                 vals = attrs.map do |k, v|
-                  v.split(many_sep).map{ class_name.find_by k => v } unless v.nil?
+                  v.split(many_sep).map{ |u| class_name.find_by k => u } unless v.nil?
                 end
                 vals.flatten!
                 vals.compact!

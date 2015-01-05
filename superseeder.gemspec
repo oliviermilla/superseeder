@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'sqlite3', '>=1.3.10'
   s.add_development_dependency 'mongoid', '~>4'
+  s.add_development_dependency 'database_cleaner', '>=1.3.0'
 end
