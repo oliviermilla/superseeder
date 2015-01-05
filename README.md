@@ -8,22 +8,8 @@ Currently supported formats are .csv, .xls, .xlsx, .ods, .tsv., .yml. Support fo
 
 The gem was written for Mongoid models (https://github.com/mongoid/mongoid). ActiveRecord support is on its way.
 
-Use Case
+Example case
 -----------
-Create a `db/seeds/data` folder. Add seed files in your favorite format.
-
-In `db/seeds/seeds.rb`:
-
-```ruby
-include Superseeder
-seed :cars
-seed :parkings
-```
-
-Use `rake db:seed` as usual to see your database being seeded!
-
-Writing seeds
--------------
 Let's say you want to seed the following models with their relations:
 
 ```ruby
@@ -38,7 +24,26 @@ model Parking < ActiveRecord::Base
 end
 ```
 
-Your seeds are expected to look like:
+Create a `db/seeds/data` folder. Add seed files in your favorite format. For instance:
+
+```ruby
+db/seeds/data/cars.csv
+db/seeds/data/parkings.csv
+```
+
+In `db/seeds/seeds.rb`, simply `include Superseeder` and call seed for each of the models:
+
+```ruby
+include Superseeder
+seed :cars
+seed :parkings
+```
+
+Use `rake db:seed` as usual to see your database being seeded!
+
+Writing seeds
+-----------
+Seeds are easy to write. For instance, for above models, your files are expected to look like:
 
  `db/seeds/data/cars.csv`
 

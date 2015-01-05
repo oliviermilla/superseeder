@@ -20,3 +20,5 @@ class Parking
 
   validates :name, :presence => true, :uniqueness => true
 end
+
+require_relative 'all'
