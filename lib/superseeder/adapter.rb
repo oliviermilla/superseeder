@@ -1,6 +1,11 @@
 module Superseeder
   class Adapter
 
+
+    def self.adapters
+      %w(active_record mongoid)
+    end
+
     def initialize(instance)
       @instance = instance
       if defined? ActiveRecord::Base

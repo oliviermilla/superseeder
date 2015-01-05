@@ -1,9 +1,23 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+require 'rails'
+
+%w(
+  action_controller
+  action_view
+  action_mailer
+  active_job
+  rails/test_unit
+  sprockets
+).each do |framework|
+  begin
+    require "#{framework}/railtie"
+  rescue LoadError
+  end
+end
 
 Bundler.require(*Rails.groups)
-require "superseeder"
+require 'superseeder'
 
 module Dummy
   class Application < Rails::Application

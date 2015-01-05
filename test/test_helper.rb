@@ -2,7 +2,7 @@
 ENV['RAILS_ENV'] = 'test'
 
 require File.expand_path('../../test/dummy/config/environment.rb',  __FILE__)
-ActiveRecord::Migrator.migrations_paths = [File.expand_path('../../test/dummy/db/migrate', __FILE__)]
+ActiveRecord::Migrator.migrations_paths = [File.expand_path('../../test/dummy/db/migrate', __FILE__)] if defined? ActiveRecord
 require 'rails/test_help'
 
 Rails.backtrace_cleaner.remove_silencers!
@@ -17,6 +17,7 @@ load File.dirname(__FILE__) + "/adapters/#{ENV['ADAPTER']}.rb"
 require 'minitest/autorun'
 
 require 'database_cleaner'
+DatabaseCleaner.orm = ENV['ADAPTER']
 DatabaseCleaner.strategy = :truncation
 
 class MiniTest::Spec

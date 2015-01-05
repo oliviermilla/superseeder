@@ -1,4 +1,4 @@
-require '../test_helper'
+require_relative '../test_helper'
 
 # Create a fake format taking the .wxwxwx extension that do nothing to
 # test Superseeder::#seed without it actually performing anything
@@ -18,13 +18,13 @@ module ::Superseeder
   end
 end
 
+klass = Class.new do
+  include ::Superseeder
+end
+
 describe '#seed' do
 
-  @@class = Class.new do
-    include ::Superseeder
-  end
-
-  let(:object){ @@class.new }
+  let(:object){ klass.new }
 
   it 'extend the class with the format\'s module when the file is found' do
     object.seed :whatever

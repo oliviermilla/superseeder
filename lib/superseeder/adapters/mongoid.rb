@@ -3,7 +3,7 @@ module Superseeder
     module Mongoid
 
       def each_relation
-        self.instance.singleton_class.reflections.each do |key, val|
+        self.instance.relations.each do |key, val|
           yield key, self.is_array_relation?(val), val.class_name.constantize
         end
       end

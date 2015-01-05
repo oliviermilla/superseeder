@@ -1,6 +1,7 @@
 require 'mongoid'
 
-Mongoid.load 'spec/support/adapters/mongoid.yml', :test
+Mongoid.load! 'test/adapters/mongoid.yml', :test
+Mongoid.raise_not_found_error = false
 
 class Car
   include Mongoid::Document

@@ -19,10 +19,19 @@ Bundler::GemHelper.install_tasks
 require 'rake/testtask'
 
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = false
+  if ENV['ADAPTER'].nil?
+    require 'superseeder/adapter'
+    ::Superseeder::Adapter.adapters.each do |adapter|
+      ENV['ADAPTER'] = adapter
+      Rake::Task['test'].execute
+    end
+  else
+    puts "Testing with #{ENV['ADAPTER']} adapter..."
+    t.libs << 'lib'
+    t.libs << 'test'
+    t.pattern = 'test/**/*_test.rb'
+    t.verbose = false
+  end
 end
 
 task default: :test
