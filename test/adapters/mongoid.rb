@@ -17,6 +17,8 @@ class Parking
   include Mongoid::Document
 
   field :name, :type => String
+  field :size, :type => Integer
+
   has_many :cars
 
   validates :name, :presence => true, :uniqueness => true

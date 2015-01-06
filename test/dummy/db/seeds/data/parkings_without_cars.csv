@@ -1,5 +1,5 @@
-name
-North
-East
-South
-West
+name,size
+North,50
+East,40
+South,30
+West,20

@@ -17,6 +17,7 @@ module Superseeder
 
         opts = args.extract_options!
         many_sep = opts.delete(opts[:many_sep]) || ','
+        update = opts.delete :update_by
 
         s = EXTENSIONS[File.extname(path)].constantize.new path.to_s, opts
         header = s.row s.first_row
@@ -27,15 +28,18 @@ module Superseeder
           if block_given?
             yield row
           else
-            instance = if row['_type'].blank?
-                         self
+            instance = row['_type'].blank? ? self : row['_type'].constantize
+            instance = if update
+                         i = instance.find_by(update => row[update])
+                         i || instance.new
                        else
-                         row['_type'].constantize
-                       end.new
+                         instance.new
+                       end
 
             require 'superseeder/adapter'
             adapter = ::Superseeder::Adapter.new instance
 
+            save_relations = []
             # Set relations
             adapter.each_relation do |name, is_array, class_name|
               attrs = row.select{ |k, _| k =~ /\A#{name}_/ }
@@ -47,7 +51,9 @@ module Superseeder
                 end
                 vals.flatten!
                 vals.compact!
+                vals = vals | instance.send(name)
                 instance.send "#{name}=", vals
+                save_relations.concat vals if defined? Mongoid::Document && instance.kind_of?(Mongoid::Document) # Not really nice, TODO FIX through adapter
               else
                 instance.send "#{name}=", class_name.find_by(attrs)
               end
@@ -64,7 +70,9 @@ module Superseeder
             end
 
             if instance.valid?
-              instance.save
+              instance.save if instance.changed?
+              save_relations.uniq!
+              save_relations.each(&:save)
             else
               Rails.logger.debug "Skipped #{row} : #{instance.errors.full_messages}"
             end

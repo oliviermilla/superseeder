@@ -1,5 +1,5 @@
-name,cars_name
-North,Mustang
-East,
-South,"Corvette,BMW"
-West,
+name,cars_name,size
+North,Mustang,50
+East,,40
+South,"Corvette,BMW",30
+West,,20
