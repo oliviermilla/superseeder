@@ -192,6 +192,18 @@ You can pass any option supported by the Roo gem (https://github.com/roo-rb/roo)
 ```
 Check their documentation for more information.
 
+Configuration
+------------------------
+If you're having a difficult time understanding why some of your models won't be seeded, you can turn the verbose mode on before calling seed:
+
+```ruby
+   # db/seeds.rb
+   include Superseeder
+   Superseeder.verbose!
+
+   seed :cars
+```
+
 Contributing / Seed formats
 ------------------
 I appreciate any help to make this gem more robust and flexible.

@@ -74,7 +74,7 @@ module Superseeder
               save_relations.uniq!
               save_relations.each(&:save)
             else
-              Rails.logger.debug "Skipped #{row} : #{instance.errors.full_messages}"
+              puts "Skipped #{row} : #{instance.errors.full_messages}" if ::Superseeder.verbose?
             end
           end
         end
