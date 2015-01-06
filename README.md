@@ -1,4 +1,4 @@
-Superseeder
+Superseeder [![Gem Version](https://badge.fury.io/rb/superseeder.svg)](http://badge.fury.io/rb/superseeder) [![Build Status](https://secure.travis-ci.org/muichkine/superseeder.png)]
 ===========
 
 Description
