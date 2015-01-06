@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.1.4
+  - 2.2.0
+
+script: bundle exec rake
+
+env:
+ - ADAPTER=mongoid
+ - ADAPTER=active_record
+
+services: mongodb
