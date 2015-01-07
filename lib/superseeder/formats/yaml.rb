@@ -8,8 +8,10 @@ module Superseeder
 
       def __process(path, *args)
         require 'yaml'
+        opts = args.extract_options!
+
         f = YAML.load_file(path)
-        yield f
+        yield f, opts
       end
 
     end

@@ -17,7 +17,6 @@ module Superseeder
 
         opts = args.extract_options!
         many_sep = opts.delete(opts[:many_sep]) || ','
-        update = opts.delete :update_by
 
         s = EXTENSIONS[File.extname(path)].constantize.new path.to_s, opts
         header = s.row s.first_row
@@ -26,11 +25,11 @@ module Superseeder
           row = header.each_with_index.inject(Hash.new){ |stamp, (i, idx)| stamp[i] = row[idx]; stamp }
           row = row.with_indifferent_access
           if block_given?
-            yield row
+            yield row, opts
           else
             instance = row['_type'].blank? ? self : row['_type'].constantize
-            instance = if update
-                         i = instance.find_by(update => row[update])
+            instance = if opts[:update_by]
+                         i = instance.find_by(opts[:update_by] => row[update])
                          i || instance.new
                        else
                          instance.new
