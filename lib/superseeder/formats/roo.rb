@@ -28,8 +28,9 @@ module Superseeder
             yield row, opts
           else
             instance = row['_type'].blank? ? self : row['_type'].constantize
-            instance = if opts[:update_by]
-                         i = instance.find_by(opts[:update_by] => row[update])
+            update_by = opts[:update_by]
+            instance = if update_by
+                         i = instance.find_by update_by => row[update_by]
                          i || instance.new
                        else
                          instance.new
