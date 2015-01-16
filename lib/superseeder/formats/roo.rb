@@ -30,8 +30,18 @@ module Superseeder
             instance = row['_type'].blank? ? self : row['_type'].constantize
             update_by = opts[:update_by]
             instance = if update_by
-                         i = instance.find_by update_by => row[update_by]
-                         i || instance.new
+                         if update_by.kind_of? Array
+                           i = self.all
+                           update_by.each do |u|
+                             i = i.where u => row[u]
+                           end
+                           i = i.entries
+                           raise ArgumentError.new ":update_by => #{update_by} yielded more than one record!" if i.length > 1
+                           i.first || instance.new
+                         else
+                           i = instance.find_by update_by => row[update_by]
+                           i || instance.new
+                         end
                        else
                          instance.new
                        end

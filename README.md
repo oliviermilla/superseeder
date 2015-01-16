@@ -182,7 +182,11 @@ Options
 ```
 That will find each record by its name and update all its attributes if they differ from the seed file.
 This option allows you to modify a seed file and update your database without having to worry about your seed models changing id for instance.
+In order to find the **single** record to update, you can match several columns
 
+```ruby
+   seed :parkings, :update_by => [:name, :color]
+```
  * Roo options.
 
 You can pass any option supported by the Roo gem (https://github.com/roo-rb/roo) to read files, such as encoding, CSV column separator, etc.
