@@ -187,6 +187,13 @@ In order to find the **single** record to update, you can match several columns
 ```ruby
    seed :parkings, :update_by => [:name, :color]
 ```
+
+or you can pass a block that will take as argument the class of the instance to create and the row as an array.
+
+```ruby
+   seed :parkings, :update_by => ->(instance_class, row){ instance_class.find_by :name => row[0] }
+```
+
  * Roo options.
 
 You can pass any option supported by the Roo gem (https://github.com/roo-rb/roo) to read files, such as encoding, CSV column separator, etc.

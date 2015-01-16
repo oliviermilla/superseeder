@@ -30,6 +30,10 @@ module Superseeder
             instance = row['_type'].blank? ? self : row['_type'].constantize
             update_by = opts[:update_by]
             instance = if update_by
+                         if update_by.kind_of? Proc
+                           i = update_by.call(instance, row)
+                           i || instance.new
+                         end
                          if update_by.kind_of? Array
                            i = self.all
                            update_by.each do |u|
