@@ -21,12 +21,12 @@ Example case
 Let's say you want to seed the following models with their relations:
 
 ```ruby
-model Car < ActiveRecord::Base
+class Car < ActiveRecord::Base
   belongs_to :parking
   validates :name, :presence => true
 end
 
-model Parking < ActiveRecord::Base
+class Parking < ActiveRecord::Base
   has_many :cars
   validates :name, :presence => true, :uniqueness => true
 end
@@ -188,7 +188,7 @@ In order to find the **single** record to update, you can match several columns
    seed :parkings, :update_by => [:name, :color]
 ```
 
-or you can pass a block that will take as argument the class of the instance to create and the row as an array.
+or you can pass a Proc that will take as argument the class of the instance to create and the row as an array.
 
 ```ruby
    seed :parkings, :update_by => ->(instance_class, row){ instance_class.find_by :name => row[0] }
