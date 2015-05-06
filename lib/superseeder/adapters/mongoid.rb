@@ -10,7 +10,7 @@ module Superseeder
 
       def each_field(row)
         self.instance.fields.select{ |f, o| row.key? o.options[:as] || f }.each do |field, options|
-          yield options.options[:as] || field, self.is_array_field?(options)
+          yield options.options[:as] || field, self.is_array_field?(options), self.is_hash_field?(options)
         end
       end
 
@@ -18,6 +18,10 @@ module Superseeder
 
       def is_array_field?(options)
         options.type == Array
+      end
+
+      def is_hash_field?(options)
+        options.type == Hash
       end
 
       def is_array_relation?(options)

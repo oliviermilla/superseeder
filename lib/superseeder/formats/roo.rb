@@ -74,9 +74,11 @@ module Superseeder
             end
 
             # Set fields
-            adapter.each_field(row) do |name, is_array|
+            adapter.each_field(row) do |name, is_array, is_hash|
               val = if is_array
                       row[name].try(:split, many_sep)
+                    elsif is_hash
+                      eval row[name] if row[name]
                     else
                       row[name]
                     end

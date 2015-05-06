@@ -11,7 +11,7 @@ module Superseeder
       def each_field(row)
         self.instance.attributes.each do |field, val|
           next unless row.key? field
-          yield field, false #self.is_array_field?(options) TODO inquiry
+          yield field, false, false #self.is_array_field?(options) TODO inquiry
         end
       end
 
@@ -19,6 +19,10 @@ module Superseeder
 
       def is_array_field?(options)
         options.type == Array
+      end
+
+      def is_hash_field?(options)
+        options.type == Hash
       end
 
       def is_array_relation?(reflection)
