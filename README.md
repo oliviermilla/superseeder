@@ -16,6 +16,14 @@ Support for other formats can easily be added and contributed back here. :)
 
 The gem supports both [Mongoid](https://github.com/mongoid/mongoid) and ActiveRecord.
 
+Gem Dependency
+------------------------
+You may need to add some additional gems to your gemfile dpending on the file types you want to load
+ Type|Additional gem
+ ----|------------
+ .csv| -none-
+ .xls|[roo-xls](https://github.com/roo-rb/roo-xls)
+
 Example case
 -----------
 Let's say you want to seed the following models with their relations:
